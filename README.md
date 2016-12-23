@@ -1,10 +1,10 @@
 # tencentyun/image-cpp-sdk-v4
 腾讯云 [万象优图（Cloud Image）](https://www.qcloud.com/product/ci) SDK for C++
 
-#linux等类UINX系统使用手册
-##需要安装的库和工具
+#linux等类UINX系统使用手册                      
+##需要安装的库和工具                                                                                           
 依赖静态库: curl jsoncpp  (在lib文件夹下)  
-依赖动态库: ssl crypto rt z  (需要安装)
+依赖动态库: ssl crypto rt z  (需要安装)                                                                                      
 (1)安装openssl的库和头文件 http://www.openssl.org/source/   
 (2)安装curl的库和头文件 http://curl.haxx.se/download/curl-7.43.0.tar.gz                   
 (3)安装jsoncpp的库和头文件 https://github.com/open-source-parsers/jsoncpp                                                           
