@@ -51,20 +51,20 @@ How to start
 
 ```c++
 	//单个或多个图片Url
-	vector<string> urls;
-	urls.push_back("http://hearthstone.nos.netease.com/1/artworkGvG/GoblinBlastmagel.jpg");
-	urls.push_back("http://hearthstone.nos.netease.com/1/artworknaxx/Faerlinal.jpg");
-	urls.push_back("http://hearthstone.nos.netease.com/1/artworknaxx/KelThuzadl.jpg");
-	PornDetectReq pornReq(BUCKET, urls);
+	vector<string> pornUrls;
+	pornUrls.push_back("http://hearthstone.nos.netease.com/1/artworkGvG/GoblinBlastmagel.jpg");
+	pornUrls.push_back("http://hearthstone.nos.netease.com/1/artworknaxx/Faerlinal.jpg");
+	pornUrls.push_back("http://hearthstone.nos.netease.com/1/artworknaxx/KelThuzadl.jpg");
+	PornDetectReq pornReq(BUCKET, pornUrls);
 	ret = image.PornDetect(pornReq);
 	cout<<ret<<endl;
     
     //单个或多个图片File
-	map<string, string> images;
-	images["1.jpg"] = FileUtil::getFileContent("pic/1.jpg");
-	images["2.jpg"] = FileUtil::getFileContent("pic/2.jpg");
-	images["3.jpg"] = FileUtil::getFileContent("pic/3.jpg");
-	PornDetectReq pornReq2(BUCKET, images);
+	map<string, string> pornImages;
+	pornImages["1.jpg"] = FileUtil::getFileContent("pic/1.jpg");
+	pornImages["2.jpg"] = FileUtil::getFileContent("pic/2.jpg");
+	pornImages["3.jpg"] = FileUtil::getFileContent("pic/3.jpg");
+	PornDetectReq pornReq2(BUCKET, pornImages);
 	ret = image.PornDetect(pornReq);
 	cout<<ret<<endl;    
 ```
@@ -90,54 +90,54 @@ How to start
 ```c++
 	///身份证识别
 	//单个或多个图片Url,识别身份证正面
-	vector<string> urls;
-	urls.push_back("http://imgs.focus.cn/upload/sz/5876/a_58758051.jpg");
-	urls.push_back("http://img5.iqilu.com/c/u/2013/0530/1369896921237.jpg");
-	IdCardOcrReq idReq(BUCKET, urls，0);
+	vector<string> idZUrls;
+	idZUrls.push_back("http://imgs.focus.cn/upload/sz/5876/a_58758051.jpg");
+	idZUrls.push_back("http://img5.iqilu.com/c/u/2013/0530/1369896921237.jpg");
+	IdCardOcrReq idReq(BUCKET, idZUrls,0);
 	ret = image.IdCardOcr(idReq);
 	cout<<ret<<endl;
     
 	//单个或多个图片file,识别身份证正面
-	map<string, string> images;
-	images["id6_zheng.jpg"] = FileUtil::getFileContent("id6_zheng.jpg");
-	images["id2_zheng.jpg"] = FileUtil::getFileContent("id2_zheng.jpg");
-	IdCardOcrReq idReq2(BUCKET, images, 0);
+	map<string, string> idZImages;
+	idZImages["id6_zheng.jpg"] = FileUtil::getFileContent("id6_zheng.jpg");
+	idZImages["id2_zheng.jpg"] = FileUtil::getFileContent("id2_zheng.jpg");
+	IdCardOcrReq idReq2(BUCKET, idZImages, 0);
 	ret = image.IdCardOcr(idReq2);
 	cout<<ret<<endl;
 
 	//单个或多个图片Url,识别身份证反面
-	vector<string> urls;
-	urls.push_back("http://www.csx.gov.cn/cwfw/bszn/201403/W020121030349825312574.jpg");
-	urls.push_back("http://www.4009951551.com/upload/image/20151026/1445831136187479.png");
-	IdCardOcrReq idReq(BUCKET, urls，1);
-	ret = image.IdCardOcr(idReq);
+    vector<string> idFUrls;
+	idFUrls.push_back("http://www.csx.gov.cn/cwfw/bszn/201403/W020121030349825312574.jpg");
+	idFUrls.push_back("http://www.4009951551.com/upload/image/20151026/1445831136187479.png");
+	IdCardOcrReq idReq3(BUCKET, idFUrls,1);
+	ret = image.IdCardOcr(idReq3);
 	cout<<ret<<endl;
     
     ///身份证识别
 	//单个或多个图片file,识别身份证反面
-	map<string, string> images;
-	images["id6_zheng.jpg"] = FileUtil::getFileContent("id5_fan.jpg");
-	images["id2_zheng.jpg"] = FileUtil::getFileContent("id7_fan.jpg");
-	IdCardOcrReq idReq2(BUCKET, images, 1);
-	ret = image.IdCardOcr(idReq2);
+    map<string, string> idFImages;
+	idFImages["id5_fan.jpg"] = FileUtil::getFileContent("id5_fan.jpg");
+	idFImages["id7_fan.jpg"] = FileUtil::getFileContent("id7_fan.jpg");
+	IdCardOcrReq idReq4(BUCKET, idFImages, 1);
+	ret = image.IdCardOcr(idReq4);
 	cout<<ret<<endl;
 ```
 
 ##### OCR-名片识别	
 ```c++
 	 //单个或多个图片Url
-	vector<string> urls;
-	urls.push_back("http://pic1.nipic.com/2008-12-03/2008123181119306_2.jpg");
-	urls.push_back("http://pic.58pic.com/58pic/12/49/04/80k58PICzYP.jpg");
-	NameCardOcrReq nameReq(BUCKET, urls，1);
+	vector<string> nameUrls;
+	nameUrls.push_back("http://pic1.nipic.com/2008-12-03/2008123181119306_2.jpg");
+	nameUrls.push_back("http://pic.58pic.com/58pic/12/49/04/80k58PICzYP.jpg");
+	NameCardOcrReq nameReq(BUCKET, nameUrls, 0);
 	ret = image.NameCardOcr(nameReq);
 	cout<<ret<<endl;
     
 	//单个或多个图片file
-	map<string, string> images;
-	images["id6_zheng.jpg"] = FileUtil::getFileContent("r.jpg");
-	images["id2_zheng.jpg"] = FileUtil::getFileContent("name2.jpg");
-	NameCardOcrReq nameReq2(BUCKET, images, 0);
+	map<string, string> nameImages;
+	nameImages["r.jpg"] = FileUtil::getFileContent("r.jpg");
+	nameImages["name2.jpg"] = FileUtil::getFileContent("name2.jpg");
+	NameCardOcrReq nameReq2(BUCKET, nameImages, 0);
 	ret = image.NameCardOcr(nameReq2);
 	cout<<ret<<endl;
 ```
@@ -150,14 +150,14 @@ How to start
 ```c++
 	//单个图片Url, mode:1为检测最大的人脸 , 0为检测所有人脸
     FaceDetectReq faceDetectReq(BUCKET);
-    fcReq.SetMode(0);
-    fcReq.SetUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
-    ret = image.FaceDetect(fcReq);
+    faceDetectReq.SetMode(0);
+    faceDetectReq.SetUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
+    ret = image.FaceDetect(faceDetectReq);
     cout<<ret<<endl; 
 
     //单个图片file
-    fcReq.SetImage("zhao2.jpg");
-    ret = image.FaceDetect(fcReq);
+    faceDetectReq.SetImage("zhao2.jpg");
+    ret = image.FaceDetect(faceDetectReq);
 	cout<<ret<<endl; 
 ```
 
@@ -219,9 +219,9 @@ How to start
 
     //设置信息
     FaceSetInfoReq setInfoReq(BUCKET);
-    delFaceReq.SetPersonId("person2222");
-    delFaceReq.SetPersonName("ying");
-    ret = image.FaceSetInfo(delFaceReq);
+    setInfoReq.SetPersonId("person2222");
+    setInfoReq.SetPersonName("ying");
+    ret = image.FaceSetInfo(setInfoReq);
     cout<<ret<<endl;
 
 
@@ -322,10 +322,10 @@ How to start
     idCompareReq.SetUrl("http://docs.ebdoor.com/Image/CompanyCertificate/1/16844.jpg");
     idCompareReq.SetIdCardNumber("330782198802084329");
     idCompareReq.SetIdCardName("季锦锦");
-    ret = image.FaceIdCardCompareReq(idCompareReq);
+    ret = image.FaceIdCardCompare(idCompareReq);
 
     idCompareReq.SetImage("idcard.jpg");
-    ret = image.FaceIdCardCompareReq(idCompareReq);
+    ret = image.FaceIdCardCompare(idCompareReq);
     cout<<ret<<endl; 
 ```
 		
@@ -335,20 +335,30 @@ How to start
 	//活体检测第一步：获取唇语（验证码）
     FaceLiveGetFourReq getFourReq(BUCKET);
     ret = image.FaceLiveGetFour(getFourReq);
+    cout<<ret<<endl; 
+    string validate = "";
+    Json::Value obj = StringUtil::StringToJson(ret);
 
-    String validate = "123456";
-
+    Json::FastWriter json_writer;
+    string data = json_writer.write(obj["data"]);
+    if (!data.empty()) {
+        Json::Value dataObj = StringUtil::StringToJson(data);
+        validate =json_writer.write(dataObj["validate_data"]);
+    }
     //活体检测第二步：检测
     FaceLiveDetectFourReq detectFourReq(BUCKET);
     detectFourReq.SetValidateData(validate);
-    detectFourReq.SetVideo(ZOE_0171.mp4);
-    ret = image.FaceLiveDetectFour(idCompareReq);
+    detectFourReq.SetVideo("ZOE_0171.mp4");
+    ret = image.FaceLiveDetectFour(detectFourReq);
+    cout<<ret<<endl; 
 
     //活体检测第二步：检测--对比指定身份信息
     FaceIdCardLiveDetectFourReq iddetectFourReq(BUCKET);
-    detectFourReq.SetValidateData(validate);
-    detectFourReq.SetVideo(ZOE_0171.mp4);
-    detectFourReq.SetIdCardName("季锦锦");
-    detectFourReq.SetIdCardNumber("330782198802084329");
-    ret = image.FaceIdCardLiveDetectFour(detectFourReq);
-```
+    iddetectFourReq.SetValidateData(validate);
+    iddetectFourReq.SetVideo("ZOE_0171.mp4");
+    iddetectFourReq.SetIdCardName("季锦锦");
+    iddetectFourReq.SetIdCardNumber("330782198802084329");
+    ret = image.FaceIdCardLiveDetectFour(iddetectFourReq);
+    cout<<ret<<endl; 
+
+	return 0;
