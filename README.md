@@ -338,13 +338,15 @@ How to start
     cout<<ret<<endl; 
     string validate = "";
     Json::Value obj = StringUtil::StringToJson(ret);
-
+	
+	//获取验证码
     Json::FastWriter json_writer;
     string data = json_writer.write(obj["data"]);
     if (!data.empty()) {
         Json::Value dataObj = StringUtil::StringToJson(data);
         validate =json_writer.write(dataObj["validate_data"]);
     }
+	
     //活体检测第二步：检测
     FaceLiveDetectFourReq detectFourReq(BUCKET);
     detectFourReq.SetValidateData(validate);
