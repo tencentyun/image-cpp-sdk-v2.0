@@ -3,12 +3,12 @@
 
 #linux等类UINX系统使用手册
 ##需要安装的库和工具
-依赖静态库: curl jsoncpp boost_system boost_thread  (在lib文件夹下)
+依赖静态库: curl jsoncpp  (在lib文件夹下)  
 依赖动态库: ssl crypto rt z  (需要安装)
-(1)安装openssl的库和头文件 http://www.openssl.org/source/ 
-(2)安装curl的库和头文件 http://curl.haxx.se/download/curl-7.43.0.tar.gz 
-(3)安装jsoncpp的库和头文件 https://github.com/open-source-parsers/jsoncpp 
-(4)安装cmake工具 http://www.cmake.org/download/ 
+(1)安装openssl的库和头文件 http://www.openssl.org/source/   
+(2)安装curl的库和头文件 http://curl.haxx.se/download/curl-7.43.0.tar.gz                   
+(3)安装jsoncpp的库和头文件 https://github.com/open-source-parsers/jsoncpp                                                           
+(4)安装cmake工具 http://www.cmake.org/download/                                     
 
 ##编译生成静态库.a
 执行下面的命令  
