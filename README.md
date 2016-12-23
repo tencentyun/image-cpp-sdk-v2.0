@@ -1,1 +1,354 @@
-# image-cpp-sdk-v4
+# tencentyun/image-cpp-sdk-v4
+腾讯云 [万象优图（Cloud Image）](https://www.qcloud.com/product/ci) SDK for C++
+
+#linux等类UINX系统使用手册
+##需要安装的库和工具
+依赖静态库: curl jsoncpp boost_system boost_thread  (在lib文件夹下)
+依赖动态库: ssl crypto rt z  (需要安装)
+(1)安装openssl的库和头文件 http://www.openssl.org/source/ 
+(2)安装curl的库和头文件 http://curl.haxx.se/download/curl-7.43.0.tar.gz 
+(3)安装jsoncpp的库和头文件 https://github.com/open-source-parsers/jsoncpp 
+(4)安装cmake工具 http://www.cmake.org/download/ 
+
+##编译生成静态库.a
+执行下面的命令  
+cd ${image-cpp-sdk_v4}  
+mkdir -p build  
+cd build  
+cmake ..  
+make  
+
+
+#windows系统咱不支持
+
+How to start
+----------------------------------- 
+### 1. 在腾讯云申请业务的授权
+授权包括：
+		
+	APP_ID 
+	SECRET_ID
+	SECRET_KEY
+	BUCKET
+
+### 2. 创建对应操作类的对象
+如果要使用图片，需要创建图片操作类对象
+
+	//设置全局参数（非必须）
+    ImageSysConfig::setAuthExpiredTime(300); //设置签名超时时长300s
+
+    //生成ImageAPI对象
+    ImageConfig config(APP_ID, SECRET_ID, SECRET_KEY);
+    ImageAPI image(config);
+
+### 3. 调用对应的方法
+在创建完对象后，根据实际需求，调用对应的操作方法就可以了。sdk提供的方法包括：图片识别、人脸识别及人脸核身等。
+
+#### 3.1 图片识别
+图片识别包括：图片鉴黄、图片标签、OCR-身份证识别及OCR-名片识别。
+
+##### 图片鉴黄
+
+```c++
+	//单个或多个图片Url
+	vector<string> urls;
+	urls.push_back("http://hearthstone.nos.netease.com/1/artworkGvG/GoblinBlastmagel.jpg");
+	urls.push_back("http://hearthstone.nos.netease.com/1/artworknaxx/Faerlinal.jpg");
+	urls.push_back("http://hearthstone.nos.netease.com/1/artworknaxx/KelThuzadl.jpg");
+	PornDetectReq pornReq(BUCKET, urls);
+	ret = image.PornDetect(pornReq);
+	cout<<ret<<endl;
+    
+    //单个或多个图片File
+	map<string, string> images;
+	images["1.jpg"] = FileUtil::getFileContent("pic/1.jpg");
+	images["2.jpg"] = FileUtil::getFileContent("pic/2.jpg");
+	images["3.jpg"] = FileUtil::getFileContent("pic/3.jpg");
+	PornDetectReq pornReq2(BUCKET, images);
+	ret = image.PornDetect(pornReq);
+	cout<<ret<<endl;    
+```
+
+##### 图片标签
+
+```c++
+	//单个图片url
+	TagDetectReq tagReq(BUCKET);
+	tagReq.SetUrl("http://img3.a0bi.com/upload/ttq/20160814/1471155260063.png");
+	ret = image.TagDetect(tagReq);
+	cout<<ret<<endl;
+
+	//单个图片file
+	TagDetectReq tagReq(BUCKET);
+	tagReq.SetImage("hot1.jpg");
+	ret = image.TagDetect(tagReq);
+	cout<<ret<<endl;
+```
+
+##### OCR-身份证识别
+
+```c++
+	///身份证识别
+	//单个或多个图片Url,识别身份证正面
+	vector<string> urls;
+	urls.push_back("http://imgs.focus.cn/upload/sz/5876/a_58758051.jpg");
+	urls.push_back("http://img5.iqilu.com/c/u/2013/0530/1369896921237.jpg");
+	IdCardOcrReq idReq(BUCKET, urls，0);
+	ret = image.IdCardOcr(idReq);
+	cout<<ret<<endl;
+    
+	//单个或多个图片file,识别身份证正面
+	map<string, string> images;
+	images["id6_zheng.jpg"] = FileUtil::getFileContent("id6_zheng.jpg");
+	images["id2_zheng.jpg"] = FileUtil::getFileContent("id2_zheng.jpg");
+	IdCardOcrReq idReq2(BUCKET, images, 0);
+	ret = image.IdCardOcr(idReq2);
+	cout<<ret<<endl;
+
+	//单个或多个图片Url,识别身份证反面
+	vector<string> urls;
+	urls.push_back("http://www.csx.gov.cn/cwfw/bszn/201403/W020121030349825312574.jpg");
+	urls.push_back("http://www.4009951551.com/upload/image/20151026/1445831136187479.png");
+	IdCardOcrReq idReq(BUCKET, urls，1);
+	ret = image.IdCardOcr(idReq);
+	cout<<ret<<endl;
+    
+    ///身份证识别
+	//单个或多个图片file,识别身份证反面
+	map<string, string> images;
+	images["id6_zheng.jpg"] = FileUtil::getFileContent("id5_fan.jpg");
+	images["id2_zheng.jpg"] = FileUtil::getFileContent("id7_fan.jpg");
+	IdCardOcrReq idReq2(BUCKET, images, 1);
+	ret = image.IdCardOcr(idReq2);
+	cout<<ret<<endl;
+```
+
+##### OCR-名片识别	
+```c++
+	 //单个或多个图片Url
+	vector<string> urls;
+	urls.push_back("http://pic1.nipic.com/2008-12-03/2008123181119306_2.jpg");
+	urls.push_back("http://pic.58pic.com/58pic/12/49/04/80k58PICzYP.jpg");
+	NameCardOcrReq nameReq(BUCKET, urls，1);
+	ret = image.NameCardOcr(nameReq);
+	cout<<ret<<endl;
+    
+	//单个或多个图片file
+	map<string, string> images;
+	images["id6_zheng.jpg"] = FileUtil::getFileContent("r.jpg");
+	images["id2_zheng.jpg"] = FileUtil::getFileContent("name2.jpg");
+	NameCardOcrReq nameReq2(BUCKET, images, 0);
+	ret = image.NameCardOcr(nameReq2);
+	cout<<ret<<endl;
+```
+
+#### 3.2 人脸识别
+人脸识别包括：人脸检测、五官定位、个体信息管理、人脸验证、人脸对比及人脸检索。
+
+#### 人脸检测
+
+```c++
+	//单个图片Url, mode:1为检测最大的人脸 , 0为检测所有人脸
+    FaceDetectReq faceDetectReq(BUCKET);
+    fcReq.SetMode(0);
+    fcReq.SetUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
+    ret = image.FaceDetect(fcReq);
+    cout<<ret<<endl; 
+
+    //单个图片file
+    fcReq.SetImage("zhao2.jpg");
+    ret = image.FaceDetect(fcReq);
+	cout<<ret<<endl; 
+```
+
+##### 五官定位
+
+```c++
+	//单个图片Url,检测最大的人脸
+    FaceShapeReq faceShapeReq(BUCKET);
+    faceShapeReq.SetMode(0);
+    faceShapeReq.SetUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
+    ret = image.FaceShape(faceShapeReq);
+    cout<<ret<<endl; 
+
+ 	//单个图片file
+    faceShapeReq.SetImage("zhao2.jpg");
+    ret = image.FaceShape(faceShapeReq);
+	cout<<ret<<endl; 
+```
+
+##### 个体信息管理
+```c++
+    //创建一个Person，并将Person放置到group_ids指定的组当中, 使用图片url
+    FaceNewPersonReq newPersonReq(BUCKET);
+    newPersonReq.SetUrl("http://img3.a0bi.com/upload/ttq/20160814/1471155260063.png");
+    newPersonReq.SetPersonId("person2222");
+    newPersonReq.AddGroupId("group2222");
+    ret = image.FaceNewPerson(newPersonReq);
+    cout<<ret<<endl; 
+
+ 	//单个图片file
+ 	newPersonReq.SetPersonId("person3333");
+    newPersonReq.SetImage("zhao2.jpg");
+    ret = image.FaceNewPerson(newPersonReq);
+	cout<<ret<<endl; 
+
+	//增加人脸,将单个或者多个Face的url加入到一个Person中.注意，一个Face只能被加入到一个Person中。 一个Person最多允许包含20个Face
+    FaceAddFaceReq addFaceReq(BUCKET);
+    addFaceReq.AddUrl("http://jiangsu.china.com.cn/uploadfile/2015/1102/1446443026382534.jpg");
+    addFaceReq.AddUrl("http://n.sinaimg.cn/fashion/transform/20160704/flgG-fxtspsa6612705.jpg");
+    addFaceReq.SetPersonId("person2222");
+    ret = image.FaceAddFace(addFaceReq);
+    cout<<ret<<endl; 
+
+ 	//增加人脸,将单个或者多个Face的file加入到一个Person中
+    addFaceReq.AddImage("zhao1.jpg");
+    addFaceReq.AddImage("zhao2.jpg");
+    ret = image.FaceAddFace(addFaceReq);
+	cout<<ret<<endl; 
+
+
+	//删除人脸
+    FaceDelFaceReq delFaceReq(BUCKET);
+    delFaceReq.SetPersonId("person2222");
+    delFaceReq.AddFaceId("1831408218312574949");
+    delFaceReq.AddFaceId("1831408248150847230");
+    ret = image.FaceDelFace(delFaceReq);
+    cout<<ret<<endl; 
+
+
+    //设置信息
+    FaceSetInfoReq setInfoReq(BUCKET);
+    delFaceReq.SetPersonId("person2222");
+    delFaceReq.SetPersonName("ying");
+    ret = image.FaceSetInfo(delFaceReq);
+    cout<<ret<<endl;
+
+
+    //获取信息
+    FaceGetInfoReq getInfoReq(BUCKET);
+    getInfoReq.SetPersonId("person2222");
+    ret = image.FaceGetInfo(getInfoReq);
+    cout<<ret<<endl;
+
+
+    //获取组列表
+    FaceGetGroupIdsReq getGroupIdReq(BUCKET);
+    ret = image.FaceGetGroupIds(getGroupIdReq);
+    cout<<ret<<endl;
+
+
+    //获取人列表
+    FaceGetPersonIdsReq getPersonIdReq(BUCKET);
+    getPersonIdReq.SetGroupId("group2222");
+    ret = image.FaceGetPersonIds(getPersonIdReq);
+    cout<<ret<<endl;
+
+
+    //获取人脸列表
+    FaceGetFaceIdsReq getFaceIdReq(BUCKET);
+    getFaceIdReq.SetPersonId("person2222");
+    ret = image.FaceGetFaceIds(getFaceIdReq);
+    cout<<ret<<endl;
+
+
+    //获取人脸信息
+    FaceGetFaceInfoReq getFaceInfoReq(BUCKET);
+    getFaceInfoReq.SetFaceId("1704147773393235686");
+    ret = image.FaceGetFaceInfo(getFaceInfoReq);
+    cout<<ret<<endl;
+
+    ////删除个人
+    FaceDelPersonReq delPersonReq(BUCKET);
+    delPersonReq.SetPersonId("person2222");
+    ret = image.FaceDelPerson(delPersonReq);
+    cout<<ret<<endl;
+```
+
+##### 人脸验证
+给定一个Face和一个Person，返回是否是同一个人的判断以及置信度
+
+```c++
+	//单个图片Url
+    FaceVerifyReq faceVerifyReq(BUCKET);
+    faceVerifyReq.SetUrl("http://img3.a0bi.com/upload/ttq/20160814/1471155260063.png");
+    faceVerifyReq.SetPersonId("person1");
+    ret = image.FaceVerify(faceVerifyReq);
+    cout<<ret<<endl; 
+
+    //单个图片file
+    faceVerifyReq.SetImage("yang3.jpg");
+    ret = image.FaceVerify(faceVerifyReq);
+	cout<<ret<<endl;  
+```
+
+##### 人脸检索
+对于一个待识别的人脸图片，在一个Group中识别出最相似的Top5 Person作为其身份返回，返回的Top5中按照相似度从大到小排列。
+
+```c++
+	//单个图片Url
+    FaceIdentifyReq identifyReq(BUCKET);
+    identifyReq.SetUrl("http://img3.a0bi.com/upload/ttq/20160814/1471155260063.png");
+    identifyReq.SetGroupId("group2222");
+    ret = image.FaceIdentify(identifyReq);
+    cout<<ret<<endl; 
+
+    //单个图片file
+    identifyReq.SetImage("yang3.jpg");
+    ret = image.FaceIdentify(identifyReq);
+	cout<<ret<<endl;  
+```
+
+##### 人脸对比
+
+```c++
+    FaceCompareReq fcReq(BUCKET);
+    fcReq.AddUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
+    fcReq.AddUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
+    ret = image.FaceCompare(fcReq);
+    cout<<ret<<endl; 
+
+    //两个对比图片的文件file
+    fcReq.AddImage("zhao1.jpg");
+    fcReq.AddImage("zhao2.jpg");
+    ret = image.FaceCompare(fcReq);
+	cout<<ret<<endl;  
+```
+	
+##### 身份证识别对比
+
+```c++
+    FaceIdCardCompareReq idCompareReq(BUCKET);
+    idCompareReq.SetUrl("http://docs.ebdoor.com/Image/CompanyCertificate/1/16844.jpg");
+    idCompareReq.SetIdCardNumber("330782198802084329");
+    idCompareReq.SetIdCardName("季锦锦");
+    ret = image.FaceIdCardCompareReq(idCompareReq);
+
+    idCompareReq.SetImage("idcard.jpg");
+    ret = image.FaceIdCardCompareReq(idCompareReq);
+    cout<<ret<<endl; 
+```
+		
+#### 3.3 人脸核身
+
+```c++
+	//活体检测第一步：获取唇语（验证码）
+    FaceLiveGetFourReq getFourReq(BUCKET);
+    ret = image.FaceLiveGetFour(getFourReq);
+
+    String validate = "123456";
+
+    //活体检测第二步：检测
+    FaceLiveDetectFourReq detectFourReq(BUCKET);
+    detectFourReq.SetValidateData(validate);
+    detectFourReq.SetVideo(ZOE_0171.mp4);
+    ret = image.FaceLiveDetectFour(idCompareReq);
+
+    //活体检测第二步：检测--对比指定身份信息
+    FaceIdCardLiveDetectFourReq iddetectFourReq(BUCKET);
+    detectFourReq.SetValidateData(validate);
+    detectFourReq.SetVideo(ZOE_0171.mp4);
+    detectFourReq.SetIdCardName("季锦锦");
+    detectFourReq.SetIdCardNumber("330782198802084329");
+    ret = image.FaceIdCardLiveDetectFour(detectFourReq);
+```
