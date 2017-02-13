@@ -12,7 +12,7 @@
 
 ##编译生成静态库.a
 执行下面的命令  
-cd ${image-cpp-sdk_v4}  
+cd ${image-cpp-sdk-v2.0}  
 mkdir -p build  
 cd build  
 cmake ..  
