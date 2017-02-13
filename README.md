@@ -113,7 +113,6 @@ How to start
 	ret = image.IdCardOcr(idReq3);
 	cout<<ret<<endl;
     
-    ///身份证识别
 	//单个或多个图片file,识别身份证反面
     map<string, string> idFImages;
 	idFImages["id5_fan.jpg"] = FileUtil::getFileContent("id5_fan.jpg");
@@ -193,7 +192,7 @@ How to start
     ret = image.FaceNewPerson(newPersonReq);
 	cout<<ret<<endl; 
 
-	//增加人脸,将单个或者多个Face的url加入到一个Person中.注意，一个Face只能被加入到一个Person中。 一个Person最多允许包含20个Face
+	//增加人脸,将单个或者多个Face的url加入到一个Person中.
     FaceAddFaceReq addFaceReq(BUCKET);
     addFaceReq.AddUrl("http://jiangsu.china.com.cn/uploadfile/2015/1102/1446443026382534.jpg");
     addFaceReq.AddUrl("http://n.sinaimg.cn/fashion/transform/20160704/flgG-fxtspsa6612705.jpg");
