@@ -1,4 +1,4 @@
-# tencentyun/image-cpp-sdk-v4
+# tencentyun/image-cpp-sdk-v2.0
 腾讯云 [万象优图（Cloud Image）](https://www.qcloud.com/product/ci) SDK for C++
 
 #linux等类UINX系统使用手册                      
@@ -204,6 +204,7 @@ How to start
  	//增加人脸,将单个或者多个Face的file加入到一个Person中
     addFaceReq.AddImage("zhao1.jpg");
     addFaceReq.AddImage("zhao2.jpg");
+	addFaceReq1.SetPersonId("person2222");
     ret = image.FaceAddFace(addFaceReq);
 	cout<<ret<<endl; 
 
