@@ -10,7 +10,7 @@
 (3)安装jsoncpp的库和头文件 https://github.com/open-source-parsers/jsoncpp                                                           
 (4)安装cmake工具 http://www.cmake.org/download/                                     
 
-##编译生成静态库.a
+##编译生成可执行文件
 执行下面的命令  
 cd ${image-cpp-sdk-v2.0}  
 mkdir -p build  
@@ -314,7 +314,9 @@ How to start
     ret = image.FaceCompare(fcReq);
 	cout<<ret<<endl;  
 ```
-	
+			
+#### 3.3 人脸核身
+
 ##### 身份证识别对比
 
 ```c++
@@ -328,8 +330,6 @@ How to start
     ret = image.FaceIdCardCompare(idCompareReq);
     cout<<ret<<endl; 
 ```
-		
-#### 3.3 人脸核身
 
 ```c++
 	//活体检测第一步：获取唇语（验证码）
