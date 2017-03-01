@@ -1,7 +1,6 @@
 # tencentyun/image-cpp-sdk-v2.0
 腾讯云 [万象优图（Cloud Image）](https://www.qcloud.com/product/ci) SDK for C++
-
-#linux等类UINX系统使用手册                      
+                   
 ##需要安装的库和工具                                                                                           
 依赖静态库: curl jsoncpp  (在lib文件夹下)  
 依赖动态库: ssl crypto rt z  (需要安装)                                                                                      
@@ -10,14 +9,20 @@
 (3)安装jsoncpp的库和头文件 https://github.com/open-source-parsers/jsoncpp                                                           
 (4)安装cmake工具 http://www.cmake.org/download/                                     
 
-##编译生成可执行文件
-执行下面的命令  
-cd ${image-cpp-sdk-v2.0}  
-mkdir -p build  
-cd build  
-cmake ..  
-make  
+## SDK 配置
 
+直接下载github上提供的源代码，集成到您的开发环境。
+
+执行下面的命令
+
+```
+cd ${image-cpp-sdk-v2.0}
+mkdir -p build
+cd build
+cmake ..
+make
+```
+image_demo.cpp里面有常见API的例子。生成的image_demo可以直接运行，生成的静态库名称为:libimagesdk.a。生成的libimagesdk.a 放到你自己的工程里lib路径下，include 目录拷贝到自己的工程的include路径下。
 
 #windows系统咱不支持
 
@@ -302,6 +307,7 @@ How to start
 ##### 人脸对比
 
 ```c++
+	//两个对比图片的文件url
     FaceCompareReq fcReq(BUCKET);
     fcReq.AddUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
     fcReq.AddUrl("http://burningtest-10006599.cosgz.myqcloud.com/laobao.jpg");
@@ -319,49 +325,46 @@ How to start
 
 ##### 身份证识别对比
 
-```c++
-    FaceIdCardCompareReq idCompareReq(BUCKET);
-    idCompareReq.SetUrl("http://docs.ebdoor.com/Image/CompanyCertificate/1/16844.jpg");
-    idCompareReq.SetIdCardNumber("330782198802084329");
-    idCompareReq.SetIdCardName("季锦锦");
-    ret = image.FaceIdCardCompare(idCompareReq);
-
-    idCompareReq.SetImage("idcard.jpg");
-    ret = image.FaceIdCardCompare(idCompareReq);
-    cout<<ret<<endl; 
+```
+FaceIdCardCompareReq idCompareReq(BUCKET);
+idCompareReq.SetUrl("http://docs.ebdoor.com/Image/CompanyCertificate/1/16844.jpg");
+idCompareReq.SetIdCardNumber("330782198802084329");
+idCompareReq.SetIdCardName("季锦锦");
+ret = image.FaceIdCardCompare(idCompareReq);
+idCompareReq.SetImage("idcard.jpg");
+ret = image.FaceIdCardCompare(idCompareReq);
+cout<<ret<<endl; 
 ```
 
-##### 活体检测
-```c++
-	//活体检测第一步：获取唇语（验证码）
-    FaceLiveGetFourReq getFourReq(BUCKET);
-    ret = image.FaceLiveGetFour(getFourReq);
-    cout<<ret<<endl; 
-    string validate = "";
-    Json::Value obj = StringUtil::StringToJson(ret);
-	
-	//获取验证码
-    Json::FastWriter json_writer;
-    string data = json_writer.write(obj["data"]);
-    if (!data.empty()) {
-        Json::Value dataObj = StringUtil::StringToJson(data);
-        validate =json_writer.write(dataObj["validate_data"]);
-    }
-	
-    //活体检测第二步：检测
-    FaceLiveDetectFourReq detectFourReq(BUCKET);
-    detectFourReq.SetValidateData(validate);
-    detectFourReq.SetVideo("ZOE_0171.mp4");
-    ret = image.FaceLiveDetectFour(detectFourReq);
-    cout<<ret<<endl; 
+##### 活体检测—获取唇语验证码
 
-    //活体检测第二步：检测--对比指定身份信息
-    FaceIdCardLiveDetectFourReq iddetectFourReq(BUCKET);
-    iddetectFourReq.SetValidateData(validate);
-    iddetectFourReq.SetVideo("ZOE_0171.mp4");
-    iddetectFourReq.SetIdCardName("季锦锦");
-    iddetectFourReq.SetIdCardNumber("330782198802084329");
-    ret = image.FaceIdCardLiveDetectFour(iddetectFourReq);
-    cout<<ret<<endl; 
+```
+FaceLiveGetFourReq getFourReq(BUCKET);
+ret = image.FaceLiveGetFour(getFourReq);
+cout<<ret<<endl; 
+string validate = "";
+Json::Value obj = StringUtil::StringToJson(ret);
+```
 
-	return 0;
+##### 活体检测-视频与用户照片的比对
+
+```
+FaceLiveDetectFourReq detectFourReq(BUCKET);
+detectFourReq.SetValidateData(validate);
+detectFourReq.SetVideo("ZOE_0171.mp4");
+ret = image.FaceLiveDetectFour(detectFourReq);
+cout<<ret<<endl; 
+```
+
+##### 活体检测-视频与身份证高清照片的比对
+
+```
+FaceIdCardLiveDetectFourReq iddetectFourReq(BUCKET);
+iddetectFourReq.SetValidateData(validate);
+iddetectFourReq.SetVideo("ZOE_0171.mp4");
+iddetectFourReq.SetIdCardName("季锦锦");
+iddetectFourReq.SetIdCardNumber("330782198802084329");
+ret = image.FaceIdCardLiveDetectFour(iddetectFourReq);
+cout<<ret<<endl; 
+return 0;
+```
