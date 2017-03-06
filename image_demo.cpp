@@ -11,7 +11,7 @@
 using namespace std;
 using namespace qcloud_image;
 
-#define APP_ID	YOUR_APPID	
+#define APP_ID	123456789 //YOUR_APPID	
 #define SECRET_ID	"YOUR_SECRETID"
 #define SECRET_KEY	"YOUR_SECRETKEY"
 #define BUCKET		"YOUR_BUCKET"
